@@ -1,10 +1,12 @@
 const apiKey = '893e2c2053864988bbaedb9f315bbc8a';
 const newsArticles = document.querySelector('main');
 const sourceSelector = document.querySelector('#sources');
+const defaultSource = 'google-news-br';
 
-window.addEventListener('load', e => {
+window.addEventListener('load', async e => {
     updateNews();
-    updateNewsSources();
+    await updateNewsSources();
+    sourceSelector.value = defaultSource;
 });
 
 async function updateNewsSources() {
@@ -16,9 +18,9 @@ async function updateNewsSources() {
             .join('\n');
 }
 
-async function updateNews() {
+async function updateNews(source = defaultSource) {
     newsArticles.innerHTML = '';
-    const resp = await fetch(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`);
+    const resp = await fetch(`https://newsapi.org/v2/top-headlines?sources=${source}&apiKey=${apiKey}`);
     const json = await resp.json();
 
     newsArticles.innerHTML = json.articles.map(createArticle).join('\n');
