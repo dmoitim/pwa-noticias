@@ -4,6 +4,8 @@ const sourceSelector = document.querySelector('#sources');
 const defaultSource = 'google-news-br';
 
 window.addEventListener('load', async e => {
+    sourceSelector.addEventListener('change', evt => {updateNews(evt.target.value)});
+
     updateNews();
     await updateNewsSources();
     sourceSelector.value = defaultSource;
